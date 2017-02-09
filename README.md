@@ -9,13 +9,13 @@ Als dieser Text geschrieben wurde, hat sich der statische produktspezifische Tei
 Jedes Lesegerät, das diesen Umstand erkennen kann und die enthaltenen Informationen nicht weiter zu verarbeiten versucht, sollte in der Lage sein, die mit diesem Projekt erstellten Tickets zu prüfen.
 
 Der Server benötigt eine laufende PostgreSQL-Datenbank, die auch zur Konfiguration verwendet wird.
-Die nötigen Tabellen sind in `barti-db/src/main/resources/db/migration/V0_0_1__initial.sql` beschrieben und werden zur Compile-Zeit in der Datenbank erstellt.
-Zusätzlich finden sich als Einstiegs-Hilfe einige Informationen in `barti-db/src/main/resources/db/migration/V0_0_2__dummy_data.sql`, die die eigentliche Konfiguration demonstrieren sollen.
+Die nötigen Tabellen sind in [V0_0_1__initial.sql](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql) beschrieben und werden zur Compile-Zeit in der Datenbank erstellt.
+Zusätzlich finden sich als Einstiegs-Hilfe einige Informationen in [V0_0_2__dummy_data.sql](barti-db/src/main/resources/db/migration/V0_0_2__dummy_data.sql), die die eigentliche Konfiguration demonstrieren sollen.
 Diese Informationen sind auf den konkreten Anwendungsfall anzupassen -- dafür muss nicht zwingend ein Migrations-Skript genutzt werden.
 Das Projekt unterstützt die Möglichkeit, mehrere Instanzen (deployments) parallel zu betreiben.
-Da sich die sog. Transaktionsdaten der Deployments unterscheiden können, müssen diese mit den Deployments verküpft werden (`deployment_product_to_transaction_data`).
-Zudem werden die erstellten Tickets nach sog. Partnern (Tabelle `partner`) gruppiert (relevant für die Abrechnung).
-Abschließend wird für die (interne) Sicherstellung, dass die Kombination aus KVP Org ID und Ticket-Nummer (vgl KA NM Spec Tabelle 5-5) stets eindeutig ist, ein gültiger Wertebereich (Tabelle `sequence_information`) für die Ticketnummern definiert, der für die Deployments überlappungsfrei zu halten ist (dabei kann die Methode `initialize_deployments_and_sequence_information` helfen).
+Da sich die sog. Transaktionsdaten der Deployments unterscheiden können, müssen diese mit den Deployments verküpft werden ([deployment_product_to_transaction_data](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L77-L87)).
+Zudem werden die erstellten Tickets nach sog. Partnern (Tabelle [partner](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L26-L31)) gruppiert (relevant für die Abrechnung).
+Abschließend wird für die (interne) Sicherstellung, dass die Kombination aus KVP Org ID und Ticket-Nummer (vgl KA NM Spec Tabelle 5-5) stets eindeutig ist, ein gültiger Wertebereich (Tabelle [sequence_information](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L89-L99)) für die Ticketnummern definiert, der für die Deployments überlappungsfrei zu halten ist (dabei kann die Methode [initialize_deployments_and_sequence_information](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L148-L180) helfen).
 
 
 
