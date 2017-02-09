@@ -1,0 +1,7 @@
+target
+.idea
+*.iml
+.DS_Store
+Level?-Betreiber-csv.txt
+/logs/
+/ticket.png

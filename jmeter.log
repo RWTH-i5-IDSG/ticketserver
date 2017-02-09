@@ -1,0 +1,53 @@
+2017/02/09 13:21:51 INFO  - jmeter.util.JMeterUtils: Setting Locale to en_US 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: Loading user properties from: /usr/local/Cellar/jmeter/3.1/libexec/bin/user.properties 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: Loading system properties from: /usr/local/Cellar/jmeter/3.1/libexec/bin/system.properties 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: Copyright (c) 1998-2016 The Apache Software Foundation 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: Version 3.1 r1770033 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: java.version=1.8.0_121 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: os.name=Mac OS X 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: os.arch=x86_64 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: os.version=10.12.3 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: file.encoding=UTF-8 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: Max memory     =514850816 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: Available Processors =8 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: Default Locale=English (United States) 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: JMeter  Locale=English (United States) 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: JMeterHome=/usr/local/Cellar/jmeter/3.1/libexec 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: user.dir  =/Users/fabi/Documents/dbis/source/barti-github 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: PWD       =/Users/fabi/Documents/dbis/source/barti-github 
+2017/02/09 13:21:51 INFO  - jmeter.JMeter: IP: 134.61.130.235 Name: urz FullName: 130-235.eduroam.rwth-aachen.de 
+2017/02/09 13:21:52 INFO  - jmeter.gui.action.LookAndFeelCommand: Using look and feel: com.apple.laf.AquaLookAndFeel [Mac OS X, System] 
+2017/02/09 13:21:52 INFO  - jmeter.JMeter: Loaded icon properties from org/apache/jmeter/images/icon.properties 
+2017/02/09 13:22:00 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must contain the string: '.functions.' 
+2017/02/09 13:22:00 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must not contain the string: '.gui.' 
+2017/02/09 13:22:01 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.assertions.BSFAssertion 
+2017/02/09 13:22:01 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.extractor.BSFPostProcessor 
+2017/02/09 13:22:02 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.modifiers.BSFPreProcessor 
+2017/02/09 13:22:02 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser 
+2017/02/09 13:22:02 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser 
+2017/02/09 13:22:02 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser 
+2017/02/09 13:22:02 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser 
+2017/02/09 13:22:02 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser 
+2017/02/09 13:22:02 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser 
+2017/02/09 13:22:02 INFO  - jorphan.exec.KeyToolUtils: keytool found at 'keytool' 
+2017/02/09 13:22:02 INFO  - jmeter.protocol.http.proxy.ProxyControl: HTTP(S) Test Script Recorder SSL Proxy will use keys that support embedded 3rd party resources in file /usr/local/Cellar/jmeter/3.1/libexec/bin/proxyserver.jks 
+2017/02/09 13:22:02 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.protocol.java.sampler.BSFSampler 
+2017/02/09 13:22:02 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.protocol.mongodb.config.MongoSourceElement 
+2017/02/09 13:22:02 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.protocol.mongodb.sampler.MongoScriptSampler 
+2017/02/09 13:22:02 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.timers.BSFTimer 
+2017/02/09 13:22:02 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.visualizers.BSFListener 
+2017/02/09 13:22:02 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.visualizers.MonitorHealthVisualizer 
+2017/02/09 13:22:02 INFO  - jmeter.samplers.SampleResult: Note: Sample TimeStamps are START times 
+2017/02/09 13:22:02 INFO  - jmeter.samplers.SampleResult: sampleresult.default.encoding is set to ISO-8859-1 
+2017/02/09 13:22:02 INFO  - jmeter.samplers.SampleResult: sampleresult.useNanoTime=true 
+2017/02/09 13:22:02 INFO  - jmeter.samplers.SampleResult: sampleresult.nanoThreadSleep=5000 
+2017/02/09 13:22:07 INFO  - jmeter.services.FileServer: Default base='/Users/fabi/Documents/dbis/source/barti-github' 
+2017/02/09 13:22:07 INFO  - jmeter.gui.action.Load: Loading file: /Users/fabi/Documents/dbis/source/barti-github/benchmark.jmx 
+2017/02/09 13:22:07 INFO  - jmeter.services.FileServer: Set new base='/Users/fabi/Documents/dbis/source/barti-github' 
+2017/02/09 13:22:07 INFO  - jmeter.save.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2 
+2017/02/09 13:22:07 INFO  - jmeter.save.SaveService: Using SaveService properties file encoding UTF-8 
+2017/02/09 13:22:07 INFO  - jmeter.save.SaveService: Using SaveService properties version 3.1 
+2017/02/09 13:22:07 INFO  - jmeter.save.SaveService: All converter versions present and correct 
+2017/02/09 13:22:07 INFO  - jmeter.save.SaveService: Loading file: /Users/fabi/Documents/dbis/source/barti-github/benchmark.jmx 
+2017/02/09 13:22:07 INFO  - jmeter.services.FileServer: Set new base='/Users/fabi/Documents/dbis/source/barti-github' 

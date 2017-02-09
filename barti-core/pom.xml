@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>de.rwth.idsg</groupId>
+        <artifactId>barti-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>barti-core</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>BarTi Core component</name>
+    <description>The Core component of the Barcode Ticket framework</description>
+
+    <!--<distributionManagement>-->
+    <!--<repository>-->
+    <!--<id>TreibhausNexus</id>-->
+    <!--<name>RWTH IDSG Nexus Repository</name>-->
+    <!--<url>https://treibhaus.informatik.rwth-aachen.de/nexus/repository/maven-snapshots/</url>-->
+    <!--</repository>-->
+    <!--</distributionManagement>-->
+
+    <profiles>
+        <profile>
+            <id>standalone</id>
+            <properties>
+                <envName>standalone</envName>
+            </properties>
+        </profile>
+        <profile>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <id>java7</id>
+            <properties>
+                <envName>java7</envName>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>net.orfjackal.retrolambda</groupId>
+                        <artifactId>retrolambda-maven-plugin</artifactId>
+                        <version>2.1.0</version>
+                        <configuration>
+                            <defaultMethods>true</defaultMethods>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>process-main</goal>
+                                    <goal>process-test</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources/${envName}</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <classifier>${envName}</classifier>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <configLocation>src/main/resources/standalone/checkstyle.xml</configLocation>
+                    <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <testSourceDirectory>${project.build.testSourceDirectory}</testSourceDirectory>
+                    <encoding>UTF-8</encoding>
+                    <consoleOutput>false</consoleOutput>
+                    <failsOnError>false</failsOnError>
+                    <failOnViolation>true</failOnViolation>
+                    <includeResources>false</includeResources>
+                    <includeTestResources>false</includeTestResources>
+                    <violationSeverity>error</violationSeverity>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sourceforge.streamsupport</groupId>
+            <artifactId>streamsupport</artifactId>
+            <version>1.4.2</version>
+        </dependency>
+    </dependencies>
+</project>

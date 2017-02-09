@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>barti-parent</artifactId>
+        <groupId>de.rwth.idsg</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>barti-server</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>BarTi serving component</name>
+    <description>The component putting the core, db and SAM components together in a multithreaded service as part of
+        the Barcode Ticket framework
+    </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.rwth.idsg</groupId>
+            <artifactId>barti-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <classifier>java7</classifier>
+        </dependency>
+        <dependency>
+            <groupId>de.rwth.idsg</groupId>
+            <artifactId>barti-sam</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>de.rwth.idsg</groupId>
+            <artifactId>barti-db</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>
