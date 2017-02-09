@@ -14,14 +14,6 @@
     <name>BarTi Web component</name>
     <description>The Web component of the Barcode Ticket framework</description>
 
-    <!--<repositories>-->
-    <!--<repository>-->
-    <!--<id>TreibhausNexus</id>-->
-    <!--<name>RWTH IDSG Nexus Repository</name>-->
-    <!--<url>https://treibhaus.informatik.rwth-aachen.de/nexus/repository/maven-snapshots/</url>-->
-    <!--</repository>-->
-    <!--</repositories>-->
-
     <properties>
         <jooq.version>3.6.2</jooq.version>
         <cxf.version>3.1.1</cxf.version>

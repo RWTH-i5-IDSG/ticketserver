@@ -14,14 +14,6 @@
     <name>BarTi Check component</name>
     <description>The Decoding and Verification component of the Barcode Ticket framework</description>
 
-    <!--<distributionManagement>-->
-    <!--<repository>-->
-    <!--<id>TreibhausNexus</id>-->
-    <!--<name>RWTH IDSG Nexus Repository</name>-->
-    <!--<url>https://treibhaus.informatik.rwth-aachen.de/nexus/repository/maven-snapshots/</url>-->
-    <!--</repository>-->
-    <!--</distributionManagement>-->
-
     <profiles>
         <profile>
             <id>standalone</id>
