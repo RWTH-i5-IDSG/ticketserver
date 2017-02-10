@@ -96,13 +96,13 @@ Stellen Sie mit Hilfe des folgenden Befehls sicher, dass die Java-Laufzeitumgebu
 <br/>`ln -s /lib/arm-linux-gnueabihf/libpcsclite.so.1 /usr/lib/libpcsclite.so`
 
 ## Hinweise zum Deployment in einer virtuellen Maschine auf VMware ESXi 
-Grundsätzlich ist der Betrieb von BarTi in einer virtuellen Maschine auf Basis von VMware ESXi durch durchreichen des entsprechend Smartcardlesegeräts möglich. Zustätzlich ist die Verwendung eines Daemons der zusätzliche Entropie bereitstellt nötig, z.b. `haveged`, welches unter Ubuntu/Debian mit `apt-get install haveged` installiert werden kann.
+Grundsätzlich ist der Betrieb von BarTi in einer virtuellen Maschine auf Basis von VMware ESXi durch durchreichen des entsprechend Smartcardlesegeräts möglich. Zustätzlich ist die Verwendung eines Daemons der zusätzliche Entropie bereitstellt nötig, z.b. [haveged](http://www.issihosts.com/haveged/), welches unter Ubuntu/Debian mit `apt-get install haveged` installiert werden kann.
 
-Der Betrieb unter VMware ESXi 6.0U2 ist empfohlen. Version 6.5 enthält zwei Änderungen die zusätzliche Konfiguration nötig machen:
+Der Betrieb unter VMware ESXi 6.0U2 ist empfohlen. Version 6.5 enthält zwei Änderungen, die eine zusätzliche Konfiguration nötig machen:
 
 - Unterstützung von Smartcards als Zugangsberechtigung.
 
-Damit ein CCID kompatibles Smartcardlesegerät an eine VM durchgereicht werden kann (passthrough) muss folgende Zeile in der Konfigurationsdatei (.vmx) der VM hinzugefügt werden.
+Damit ein CCID kompatibles Smartcardlesegerät an eine VM durchgereicht werden kann (passthrough), muss folgende Zeile in der Konfigurationsdatei (.vmx) der VM hinzugefügt werden.
 <br/>`usb.generic.allowCCID = "TRUE"`
 
 - Neue Treiberarchitektur bzw. neuer USB Treiber.
@@ -110,7 +110,4 @@ Damit ein CCID kompatibles Smartcardlesegerät an eine VM durchgereicht werden k
 Die mit VMware ESXi Version 6.5 eingeführten nativen Treiber sind sehr problematisch und können zu Verbindungsabrüchen von USB-Verbindung führen. Es muss auf den ursprünglichen Linux USB Treiber durch Ausführen des folgenden Befehls auf der ESXi Konsole gewechselt werden (Neustart erforderlich):
 <br/>`esxcli system module set -m=vmkusb -e=FALSE`
 
-Weitere Informationen: 
-https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2147650
-
-https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2147565
+Weitere Informationen: [hier](https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2147650) und [hier](https://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=2147565)
