@@ -96,7 +96,7 @@ Stellen Sie mit Hilfe des folgenden Befehls sicher, dass die Java-Laufzeitumgebu
 <br/>`ln -s /lib/arm-linux-gnueabihf/libpcsclite.so.1 /usr/lib/libpcsclite.so`
 
 ## Hinweise zum Deployment in einer virtuellen Maschine auf VMware ESXi 
-Grundsätzlich ist der Betrieb von BarTi in einer virtuellen Maschine auf Basis von VMware ESXi durch durchreichen des entsprechend Smartcardlesegeräts möglich. Zustätzlich ist die Verwendung eines Daemons der zusätzliche Entropie bereitstellt nötig, z.b. [haveged](http://www.issihosts.com/haveged/), welches unter Ubuntu/Debian mit `apt-get install haveged` installiert werden kann.
+Grundsätzlich ist der Betrieb von BarTi in einer virtuellen Maschine auf Basis von VMware ESXi durch durchreichen des entsprechend Smartcardlesegeräts möglich. Zustätzlich ist die Verwendung eines Daemons der zusätzliche Entropie bereitstellt nötig, z.B. [haveged](http://www.issihosts.com/haveged/), welches unter Ubuntu/Debian mit `apt-get install haveged` installiert werden kann.
 
 Der Betrieb unter VMware ESXi 6.0U2 ist empfohlen. Version 6.5 enthält zwei Änderungen, die eine zusätzliche Konfiguration nötig machen:
 
