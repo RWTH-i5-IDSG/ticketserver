@@ -77,8 +77,9 @@ public class SamCommunication {
         }
     }
 
-    private static SamInfo initialiseSAM(RSAKeyParameters userKey, ReferenceNumberTwo pvOrgID, ReferenceNumberOne
-            pvKeyVersion, ICardConnection connection) throws CardException, SamException {
+    private static SamInfo initialiseSAM(final RSAKeyParameters userKey, final ReferenceNumberTwo pvOrgID,
+                                         final ReferenceNumberOne pvKeyVersion, final ICardConnection connection)
+            throws CardException, SamException {
         log.debug("selecting application...");
         selectApplication(connection);
 
@@ -143,8 +144,9 @@ public class SamCommunication {
                         .partner(new Partner(1, "Partner1"))
                         .apiToken("ApiToken")
                         .build();
-        final STBParameters stbParameters = new STBParameters("", LocalDateTime.now(), LocalDateTime.now().plusHours
-                (9));
+        final STBParameters stbParameters = new STBParameters("",
+                LocalDateTime.now(),
+                LocalDateTime.now().plusHours(9));
         final byte[] samSigKeyCHR = samInfo.getSamSigKey().getChr().write();
         SignEntitlement.signEntitlement(samInfo.getConnection(), samInfo.getKeyForPv(pvOrgID),
                 samSigKeyCHR, 1,
