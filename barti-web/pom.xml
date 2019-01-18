@@ -20,7 +20,7 @@
         <spring.security.version>4.0.1.RELEASE</spring.security.version>
         <mysql.jdbc.version>5.1.36</mysql.jdbc.version>
         <jetty.version>9.3.5.v20151012</jetty.version>
-        <jackson.version>2.6.1</jackson.version>
+        <jackson.version>2.9.8</jackson.version>
     </properties>
 
     <profiles>
