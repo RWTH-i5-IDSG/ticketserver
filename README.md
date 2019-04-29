@@ -81,10 +81,9 @@ Das erwartete Format der Eingabe ist wie folgt:
 ```
 Das `apiToken` trägt restlichen, unveränderlichen Informationen zum Produkt und wird mit diesen in der Datenbank verknüpft.
 Zusätzlich muss der `Authorization-Key` als HTTP-Header angegeben werden. Dieser ist im [Code](barti-web/src/main/java/de/rwth/idsg/barti/web/Constants.java) standardmäßig auf den Wert `46fd1c14-a985-4053-bc22-708f45b7d971` fixiert.
-Die Rückgabe besteht aus dem zugehörigen Aztec-Barcode im png-Format und dem HTTP-Header Feld `Sign-Status`.
-Falls die statische Berechtigung erfolgreich durch das SAM signiert werden konnte, repräsentiert das zurückgegebene Bild die signierte, statische Berechtigung und der `Sign-Status` ist `Signed`.
-Falls das Ticket nicht signiert werden konnte (zB weil kein SAM gefunden werden konnte oder die Authentisierung nicht erfolgreich durchgeführt werden konnte), wird das unsignierte Ticket als Bild zurückgegeben und der `Sign-Status` ist `Unsigned`.
-Falls ein anderer Fehler auftritt, wird dieser zurückgegeben und durch einen HTTP-Status, der von 200 (OK) verschieden ist, angezeigt.
+Die Rückgabe besteht aus dem zugehörigen Aztec-Barcode im png-Format.
+Falls die statische Berechtigung erfolgreich durch das SAM signiert werden konnte, repräsentiert das zurückgegebene Bild die signierte, statische Berechtigung.
+Falls das Ticket nicht erstellt oder nicht signiert werden konnte (z.B. weil kein SAM gefunden werden konnte oder die Authentisierung nicht erfolgreich durchgeführt werden konnte), wird dies durch einen HTTP-Status, der von 200 (OK) verschieden ist, angezeigt.
 
 
 ## Hinweise zum Deployment auf einem RaspberryPi mit Ubuntu Mate
