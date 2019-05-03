@@ -8,16 +8,24 @@ Das generierte und vom SAM signierte Ticket wird als Bild zurückgegeben.
 Als dieser Text geschrieben wurde, hat sich der statische produktspezifische Teil des Tickets (vgl. Tabelle 5-81 der KA NM Spec) in der angegebenen Form noch nicht ausreichend etabliert, so dass das erzeugte Ticket an dieser Stelle Freitext enthält.
 Jedes Lesegerät, das diesen Umstand erkennen kann und die enthaltenen Informationen nicht weiter zu verarbeiten versucht, sollte in der Lage sein, die mit diesem Projekt erstellten Tickets zu prüfen.
 
-Der Server benötigt eine laufende PostgreSQL-Datenbank, die auch zur Konfiguration verwendet wird.
+Der Server benötigt eine laufende PostgreSQL-Datenbank, die auch zur Konfiguration der fachlichen Informationen verwendet wird.
 Die nötigen Tabellen sind in [V0_0_1__initial.sql](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql) beschrieben und werden zur Compile-Zeit in der Datenbank erstellt.
 Zusätzlich finden sich als Einstiegs-Hilfe einige Informationen in [V0_0_2__dummy_data.sql](barti-db/src/main/resources/db/migration/V0_0_2__dummy_data.sql), die die eigentliche Konfiguration demonstrieren sollen.
 Diese Informationen sind auf den konkreten Anwendungsfall anzupassen -- dafür muss nicht zwingend ein Migrations-Skript genutzt werden.
-Das Projekt unterstützt die Möglichkeit, mehrere Instanzen (deployments) parallel zu betreiben.
-Da sich die sog. Transaktionsdaten der Deployments unterscheiden können, müssen diese mit den Deployments verküpft werden ([deployment_product_to_transaction_data](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L77-L87)).
-Zudem werden die erstellten Tickets nach sog. Partnern (Tabelle [partner](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L26-L31)) gruppiert (relevant für die Abrechnung).
-Abschließend wird für die (interne) Sicherstellung, dass die Kombination aus KVP Org ID und Ticket-Nummer (vgl KA NM Spec Tabelle 5-5) stets eindeutig ist, ein gültiger Wertebereich (Tabelle [sequence_information](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L89-L99)) für die Ticketnummern definiert, der für die Deployments überlappungsfrei zu halten ist (dabei kann die Methode [initialize_deployments_and_sequence_information](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L148-L180) helfen).
 
+Der primäre Anwendungsfall für dieses Projekt besteht in der Bereitstellung eines Web-Dienstes zur Erstellung von VDV-KA Tickets für Dritte (hier "Partner" genannt).
+Der Fokus liegt auf der einfachen Nutzbarkeit des Dienstes für die Partner.
+Die Partner nutzen für sie erstellte API-Tokens, um die bei der Ticketerstellung zu nutzende fachliche Konfiguration zu identifizieren.
+Zusätzlich müssen sie in den Anfragen nur den Gültigkeitszeitraum des Tickets sowie den oben erwähnten Freitext übertragen.
 
+Für den Betreiber des Dienstes existiert eine zusätzliche Schnittstelle, mit deren Hilfe er ein Protokoll über die erzeugten Tickets gruppiert nach Monat und Produktverantwortlichem abrufen kann.
+Dieses Protokoll enthält alle relevanten Informationen, die für die Ticketerstellung genutzt wurden; inklusive für welchen Partner ein Ticket erstellt wurde.
+
+Zur Erhöhung der Dienst-Verfügbarkeit wird die Möglichkeit geboten, mehrere Instanzen (deployments) parallel zu betreiben.
+Da jedes Ticket eine Ticketnummer enthält, die zusammen mit der OrgID des KVPs global eindeutig sein muss, wird der verfügbare Wertebereich überlappungsfrei auf die Deployments verteilt, so dass diese autark Tickets erstellen können.
+Die Datenbanken der verschiedenen Deployments sind synchron zu halten, um den Protokollabruf an einem beliebigen Deployment zu erlauben.
+Um beim Protokollabruf sicher sein zu können, dass die Datenbanken synchron sind, wird eine Art täglicher Heartbeat via Datenbank genutzt.
+Für einen erfolgreichem Protokollabruf darf der letzte Heartbeat keines Systems älter als das Ende des Protokollzeitraums sein.
 
 ## Konfiguration des Web-Service
 
@@ -45,18 +53,39 @@ Abschließend wird für die (interne) Sicherstellung, dass die Kombination aus K
 | `db.user` | Nutzername
 | `db.password` | Nutzerpasswort
 
-### Produkt-spezifische Parameter
+### Fachliche Konfiguration
 
-| Option | Bedeutung | Referenz in KA NM Spec
+Für die zu nutzenden SAMs sind die zugehörigen Betreiberschlüssel in Tabelle [betreiber_key](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L1-8) zu hinterlegen.
+
+| Spalte | Bedeutung
+| ------ | ---------
+| `betreiber_key.chr` | Certificate Holder Reference des Betreiberschlüssels
+| `betreiber_key.private_exponent` | Privater Exponent des Betreiberschlüssels
+| `betreiber_key.modulus` | Modulus des Betreiberschlüssels
+
+Die KA-relevanten Organisationen sind in Tabelle [organisation](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L10-L15) und die Partner in Tabelle [partner](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L26-31) anzulegen.
+Die den Tickets zugrundeliegenden Produkte sind in Tabelle [product](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L17-24) zu hinterlegen.
+Pro Partner sind Ticket-API-Token zu "erstellen" und in Tabelle [ticket_api_token](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L33-45) zu hinterlegen, wobei auch KVP, PV und ProduktID mit anzugeben sind.
+
+In die Tickets einzubringende, ggf. vom Deployment abhängige Transaktionsdaten sind in Tabelle [transaction_data](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L56-69) einzutragen.
+
+| Spalte | Bedeutung | Referenz in KA NM Spec
 | ------ | --------- | ----------------------
+| `transaction_data.transaction_data_id` | nicht-fachlicher Primärschlüssel | n/a
 | `transaction_data.transaction_operator_id` | Identifikationsnummer des Operators der Transaktion | Tabelle 2-5, logTransaktionsOperator_ID
 | `transaction_data.terminal_number` | Nummer des ausstellenden Terminals | Tabelle 5-3, terminalNummer
 | `transaction_data.terminal_org_id` | Organisations-Identifikationsnummer des ausstellenden Terminals | Tabelle 5-3, Organisation_ID.organisationsNummer
 | `transaction_data.location_number` | Nummer des Orts der Transaktion | Tabelle 5-11, ortNummer
 | `transaction_data.location_org_id` | Zum Ort der Transaktion gehörende Organisations-Identifikationsnummer | Tabelle 5-11, Organisation_ID.organisationsNummer
-| `betreiber_key.chr` | Certificate Holder Reference des Betreiberschlüssels | n/a
-| `betreiber_key.private_exponent` | Privater Exponent des Betreiberschlüssels | n/a
-| `betreiber_key.modulus` | Modulus des Betreiberschlüssels | n/a
+
+Die Identifier der vorgesehenen Deployments sind in der Tabelle [deployment](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L71-75) einzutragen.
+
+Die Verknüpfung von Produkt und Deployment mit den Transaktionsdaten geschieht über [deployment_product_to_transaction_data](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L77-L87).
+Soll für alle Produkte und Deployments die selben Transaktionsdaten genutzt werden, kann für die Verknüpfung die Hilfs-Funktion [use_transaction_data_for_all_products_and_deployments](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L182-203) genutzt werden.
+
+Für die (interne) Sicherstellung, dass die Kombination aus KVP Org ID und Ticket-Nummer (vgl KA NM Spec Tabelle 5-5) stets eindeutig ist, muss für jedes Deployment ein gültiger Wertebereich (Tabelle [sequence_information](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L89-L99)) für die Ticketnummern definiert werden, der für die Deployments überlappungsfrei zu halten ist (dabei kann die Methode [initialize_deployments_and_sequence_information](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L148-L180) helfen).
+
+Abschließend gilt es, Tokens für den Zugriff auf die Protokolldaten zu erstellen und in die Tabelle [log_api_token](barti-db/src/main/resources/db/migration/V0_0_1__initial.sql#L47-54) einzupflegen.
 
 
 ## Start des Web-Service
@@ -64,11 +93,12 @@ Falls Sie nicht bereits ein jar-File zur Verfügung gestellt bekommen haben, lä
 `mvn clean package -P fatJar`
 erzeugen und im Ordner barti-web/target finden.
 Der Server kann dann mittels
-`java -jar barti-web/target/barti-web-*.jar`
+`java -Ddeployment=1 -jar barti-web/target/barti-web-*.jar`
 gestartet werden.
+Werden mehrere Deployments genutzt, ist die deployment id beim Start entsprechend anzugeben.
 
-## Nutzung des Web-Service
-Der Web-Service wird als REST-Schnittstelle auf Port 8080 unter dem Pfad [/ticket](http://localhost:8080/ticket) angeboten und ist via POST mit JSON-kodierten Informationen anzusprechen.
+## Nutzung des Ticketing-Web-Service
+Der Ticketing-Web-Service wird als REST-Schnittstelle auf Port 8080 unter dem Pfad [/ticket](http://localhost:8080/ticket) angeboten und ist via POST mit JSON-kodierten Informationen anzusprechen.
 Das erwartete Format der Eingabe ist wie folgt:
 ```
 {
@@ -79,12 +109,27 @@ Das erwartete Format der Eingabe ist wie folgt:
     "iata": "aktuell ignoriertes Feld"
 }
 ```
-Das `apiToken` trägt restlichen, unveränderlichen Informationen zum Produkt und wird mit diesen in der Datenbank verknüpft.
+Das `apiToken` identifiziert auf Serverseite die restlichen, unveränderlichen Informationen zum Produkt und wird mit diesen in der Datenbank verknüpft.
 Zusätzlich muss der `Authorization-Key` als HTTP-Header angegeben werden. Dieser ist im [Code](barti-web/src/main/java/de/rwth/idsg/barti/web/Constants.java) standardmäßig auf den Wert `46fd1c14-a985-4053-bc22-708f45b7d971` fixiert.
 Die Rückgabe besteht aus dem zugehörigen Aztec-Barcode im png-Format.
 Falls die statische Berechtigung erfolgreich durch das SAM signiert werden konnte, repräsentiert das zurückgegebene Bild die signierte, statische Berechtigung.
 Falls das Ticket nicht erstellt oder nicht signiert werden konnte (z.B. weil kein SAM gefunden werden konnte oder die Authentisierung nicht erfolgreich durchgeführt werden konnte), wird dies durch einen HTTP-Status, der von 200 (OK) verschieden ist, angezeigt.
 
+
+## Nutzung der Protokollierungsschnittstelle
+Die Schnittstelle zum Protokollabruf ist ebensfalls REST-basiert auf Port 8080 unter dem Pfad [/log](http://localhost:8080/log) erreichbar und ist via POST mit JSON-kodierten Informationen anzusprechen.
+Das erwartete Format der Eingabe ist wie folgt:
+```
+{
+    "apiToken": "LOG_API_TOKEN_1_STRING",
+    "yearMonth": "2016-07"
+}
+```
+Auch hier muss der oben genannte `Authorization-Key` als HTTP-Header angegeben werden.
+Die Antwort besteht aus einer tabellarischen Darstellung des Protokolls im CSV-Format mit Header-Zeile, inhaltlich eingeschränkt auf den angegebenen Monat des angegebenen Jahres sowie auf die Produkte des Produktverantwortlichen, zu dem das Token gehört.
+Passend dazu wird der Content-Type auf `text/csv` gesetzt und der Header Content-Disposition auf `attachment; filename=tickets-2016-07.csv` (bzw. passend zur Anfrage).
+Der Abruf kann nur erfolgreich durchgeführt werden für bereits vergangene Monate.
+Zudem schlägt der Abruf fehl, falls der jüngste Heartbeat eines der Deployments nicht aus der Zeit nach dem fraglichen Monat stammt, da dann nicht sichergestellt werden kann, dass alle Ticket-Erstellungen dieses Deployments mit beauskunftet würden.
 
 ## Hinweise zum Deployment auf einem RaspberryPi mit Ubuntu Mate
 Zusätzlich zu einer Java-Laufzeitumgebung (und ggf. Maven) müssen die Bibliotheken zur Kommunikation mit der Smartcard installiert sein, zB mittels:
