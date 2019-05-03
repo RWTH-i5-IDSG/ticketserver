@@ -191,17 +191,17 @@ public class BasicRepositoryImpl implements BasicRepository {
         final Interval interval = month.toInterval(DateTimeZone.UTC);
         final Timestamp endTimestamp = new Timestamp(interval.getEndMillis());
         @Nullable
-        final Record2<Timestamp, Integer> lastRecentUpdateAndDeployment = ctx
+        final Record2<Timestamp, Integer> leastRecentUpdateAndDeployment = ctx
                 .select(LAST_UPDATE.LOGTIME, LAST_UPDATE.DEPLOYMENT)
                 .from(LAST_UPDATE)
                 .orderBy(LAST_UPDATE.LOGTIME)
                 .limit(1)
                 .fetchOne();
-        if (null == lastRecentUpdateAndDeployment) {
+        if (null == leastRecentUpdateAndDeployment) {
             throw new PendingUpdateException("The heartbeat table is empty!");
         }
-        final Timestamp leastRecentUpdate = lastRecentUpdateAndDeployment.get(LAST_UPDATE.LOGTIME);
-        final Integer deployment = lastRecentUpdateAndDeployment.get(LAST_UPDATE.DEPLOYMENT);
+        final Timestamp leastRecentUpdate = leastRecentUpdateAndDeployment.get(LAST_UPDATE.LOGTIME);
+        final Integer deployment = leastRecentUpdateAndDeployment.get(LAST_UPDATE.DEPLOYMENT);
         if (leastRecentUpdate.before(endTimestamp)) {
             throw new PendingUpdateException("It can not be assured that all tickets would be presented, since the "
                     + "last confirmed update from deployment " + deployment + " was at " + leastRecentUpdate + " !");
