@@ -43,7 +43,7 @@
         <zxing.version>3.2.1</zxing.version>
         <slf4j.version>1.7.21</slf4j.version>
         <junit.version>4.12</junit.version>
-        <bouncycastle.version>1.46</bouncycastle.version>
+        <bouncycastle.version>1.62</bouncycastle.version>
     </properties>
 
     <build>
