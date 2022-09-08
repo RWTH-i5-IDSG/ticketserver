@@ -17,7 +17,7 @@
         <!-- https://jdbc.postgresql.org/documentation/80/connect.html
              jdbc:postgresql://host:port/database -->
         <jdbcUrl>jdbc:postgresql://${db.host}:${db.port}/${db.dbname}</jdbcUrl>
-        <postgresql.jdbc.version>42.2.5</postgresql.jdbc.version>
+        <postgresql.jdbc.version>42.4.1</postgresql.jdbc.version>
         <jooq.version>3.11.11</jooq.version>
     </properties>
 
